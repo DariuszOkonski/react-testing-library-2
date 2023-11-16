@@ -15,11 +15,11 @@ test('it shows two inputs and a button', () => {
 });
 
 test('it calls onUserAdd when the form is submitted (not the best implementation)', () => {
-  const argList = [];
-  const callBack = (...args) => {
-    argList.push(args);
+  const argsList = [];
+  const callback = (...args) => {
+    argsList.push(args);
   };
-  render(<UserForm onUserAdd={callBack} />);
+  render(<UserForm onUserAdd={callback} />);
 
   const [nameInput, emailInput] = screen.getAllByRole('textbox');
   const button = screen.getByRole('button');
@@ -35,6 +35,31 @@ test('it calls onUserAdd when the form is submitted (not the best implementation
     user.click(button);
   });
 
-  expect(argList).toHaveLength(1);
-  expect(argList[0][0]).toEqual({ name: 'jane', email: 'jane@jane.com' });
+  expect(argsList).toHaveLength(1);
+  expect(argsList[0][0]).toEqual({ name: 'jane', email: 'jane@jane.com' });
+});
+
+test('it calls onUserAdd when the form is submitted (better implementation)', () => {
+  const mock = jest.fn();
+  render(<UserForm onUserAdd={mock} />);
+
+  const [nameInput, emailInput] = screen.getAllByRole('textbox');
+  const button = screen.getByRole('button');
+
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    user.click(nameInput);
+    user.keyboard('jannice');
+
+    user.click(emailInput);
+    user.keyboard('jannice@gmail.com');
+
+    user.click(button);
+  });
+
+  expect(mock).toHaveBeenCalled();
+  expect(mock).toHaveBeenCalledWith({
+    name: 'jannice',
+    email: 'jannice@gmail.com',
+  });
 });
