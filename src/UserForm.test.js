@@ -7,11 +7,31 @@ test('it shows two inputs and a button', () => {
   const mock = jest.fn();
   render(<UserForm onUserAdd={mock} />);
 
+  // screen.logTestingPlaygroundURL();
   const inputs = screen.getAllByRole('textbox');
   const button = screen.getByRole('button');
 
   expect(inputs).toHaveLength(2);
   expect(button).toBeInTheDocument();
+});
+
+test('find all elements', () => {
+  const mock = jest.fn();
+  render(<UserForm onUserAdd={mock} />);
+
+  const labelName = screen.getByText(/enter name/i);
+  const labelEmail = screen.getByText(/enter email/i);
+  const inputName = screen.getByRole('textbox', {
+    name: /enter name/i,
+  });
+  const inputEmeil = screen.getByRole('textbox', {
+    name: /enter email/i,
+  });
+
+  expect(labelName).toBeInTheDocument();
+  expect(labelEmail).toBeInTheDocument();
+  expect(inputName).toBeInTheDocument();
+  expect(inputEmeil).toBeInTheDocument();
 });
 
 test('it calls onUserAdd when the form is submitted (not the best implementation)', () => {
