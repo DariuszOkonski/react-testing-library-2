@@ -63,3 +63,29 @@ test('it calls onUserAdd when the form is submitted (better implementation)', ()
     email: 'jannice@gmail.com',
   });
 });
+
+test('it calls onUserAdd when the form is submited (get element by label text)', () => {
+  const mock = jest.fn();
+  render(<UserForm onUserAdd={mock} />);
+
+  const nameInput = screen.getByRole('textbox', { name: /enter name/i });
+  const emailInput = screen.getByRole('textbox', { name: /enter email/i });
+  const button = screen.getByRole('button', { name: /add user/i });
+
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    user.click(nameInput);
+    user.keyboard('jannice');
+
+    user.click(emailInput);
+    user.keyboard('jannice@gmail.com');
+
+    user.click(button);
+  });
+
+  expect(mock).toHaveBeenCalled();
+  expect(mock).toHaveBeenCalledWith({
+    name: 'jannice',
+    email: 'jannice@gmail.com',
+  });
+});
