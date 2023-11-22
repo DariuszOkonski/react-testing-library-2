@@ -66,7 +66,9 @@ test('render one row per user (data-testid="users" and within)', () => {
   renderComponent();
 
   const rows = within(screen.getByTestId('users')).getAllByRole('row');
+  const tbody = screen.getByTestId('users');
 
+  expect(tbody).toBeInTheDocument();
   expect(rows).toHaveLength(2);
 });
 

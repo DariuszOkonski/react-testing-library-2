@@ -13,7 +13,7 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <h3>Hello world</h3>
+        <h3 data-testid='header'>Hello world</h3>
         <UserForm onUserAdd={onUserAdd} />
         <hr />
         <UserList users={users} />
