@@ -1,6 +1,16 @@
 import { render, screen, within } from '@testing-library/react';
 import UserList from './UserList';
 
+function renderComponent() {
+  const users = [
+    { name: 'jane', email: 'jane@jane.com' },
+    { name: 'sam', email: 'sam@sam.com' },
+  ];
+  render(<UserList users={users} />);
+
+  return { users };
+}
+
 test('render just empty table (getAllByRole)', () => {
   render(<UserList users={[]} />);
 
@@ -21,11 +31,12 @@ test('render just empty table (getByRole)', () => {
 });
 
 test('render one row per user (getByRole)', () => {
-  const users = [
-    { name: 'jane', email: 'jane@jane.com' },
-    { name: 'sam', email: 'sam@sam.com' },
-  ];
-  render(<UserList users={users} />);
+  // const users = [
+  //   { name: 'jane', email: 'jane@jane.com' },
+  //   { name: 'sam', email: 'sam@sam.com' },
+  // ];
+  // render(<UserList users={users} />);
+  renderComponent();
 
   // screen.logTestingPlaygroundURL();
   const tableRows = screen.getAllByRole('row');
@@ -47,11 +58,12 @@ test('render one row per user (get element by row)', () => {
 });
 
 test('render one row per user (data-testid="users" and within)', () => {
-  const users = [
-    { name: 'jane', email: 'jane@jane.com' },
-    { name: 'sam', email: 'sam@sam.com' },
-  ];
-  render(<UserList users={users} />);
+  // const users = [
+  //   { name: 'jane', email: 'jane@jane.com' },
+  //   { name: 'sam', email: 'sam@sam.com' },
+  // ];
+  // render(<UserList users={users} />);
+  renderComponent();
 
   const rows = within(screen.getByTestId('users')).getAllByRole('row');
 
@@ -72,11 +84,12 @@ test('render one row per user (by returning container from render)', () => {
 });
 
 test('render the email and name of each user (toHaveTextContent)', () => {
-  const users = [
-    { name: 'jane', email: 'jane@jane.com' },
-    { name: 'sam', email: 'sam@sam.com' },
-  ];
-  render(<UserList users={users} />);
+  // const users = [
+  //   { name: 'jane', email: 'jane@jane.com' },
+  //   { name: 'sam', email: 'sam@sam.com' },
+  // ];
+  // render(<UserList users={users} />);
+  const { users } = renderComponent();
 
   users.forEach((user) => {
     const name = screen.getByRole('cell', { name: user.name });
