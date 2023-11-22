@@ -71,4 +71,34 @@ test('render one row per user (by returning container from render)', () => {
   expect(rows).toHaveLength(2);
 });
 
-test('render the email and name of each user', () => {});
+test('render the email and name of each user (toHaveTextContent)', () => {
+  const users = [
+    { name: 'jane', email: 'jane@jane.com' },
+    { name: 'sam', email: 'sam@sam.com' },
+  ];
+  render(<UserList users={users} />);
+
+  users.forEach((user) => {
+    const name = screen.getByRole('cell', { name: user.name });
+    const email = screen.getByRole('cell', { name: user.email });
+
+    expect(name).toHaveTextContent(user.name);
+    expect(email).toHaveTextContent(user.email);
+  });
+});
+
+test('render the email and name of each user (toBeInTheDocument)', () => {
+  const users = [
+    { name: 'jane', email: 'jane@jane.com' },
+    { name: 'sam', email: 'sam@sam.com' },
+  ];
+  render(<UserList users={users} />);
+
+  for (let user of users) {
+    const name = screen.getByRole('cell', { name: user.name });
+    const email = screen.getByRole('cell', { name: user.email });
+
+    expect(name).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+  }
+});
