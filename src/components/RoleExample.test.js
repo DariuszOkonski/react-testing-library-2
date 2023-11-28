@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import RoleExample from './RoleExample';
 
+// npx rtl-book serve roles-notes.js
+
 test('can find elements by role', () => {
   render(<RoleExample />);
 
