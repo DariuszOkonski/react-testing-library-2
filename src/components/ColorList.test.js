@@ -51,3 +51,19 @@ test('getAllBy, queryAllBy, findAllBy', async () => {
   expect(screen.queryAllByRole('listitem')).toHaveLength(3);
   expect(await screen.findAllByRole('listitem')).toHaveLength(3);
 });
+
+test('favor using getBy to prove an element exists', () => {
+  render(<ColorList />);
+
+  const element = screen.getByRole('list');
+
+  expect(element).toBeInTheDocument();
+});
+
+test('favor queryBy when proving an element does not exist', () => {
+  render(<ColorList />);
+
+  const element = screen.queryByRole('textbox');
+
+  expect(element).not.toBeInTheDocument();
+});
